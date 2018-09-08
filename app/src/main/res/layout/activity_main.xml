@@ -10,8 +10,8 @@
         android:id="@+id/question_textview"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:text="Loading..."
         app:layout_constraintLeft_toLeftOf="parent"
@@ -50,29 +50,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/yes_button" />
 
-    <View
-        android:id="@+id/view2"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/yes_button" />
-
-    <TextView
-        android:id="@+id/results_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="Voting Results:"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view2" />
-
     <TextView
         android:id="@+id/your_answer_title"
         android:layout_width="wrap_content"
@@ -82,7 +59,7 @@
         android:text="Your Answer:"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/results_title" />
+        app:layout_constraintTop_toBottomOf="@+id/yes_button" />
 
     <TextView
         android:id="@+id/your_answer_textview"
@@ -96,6 +73,29 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toEndOf="@+id/your_answer_title"
         app:layout_constraintTop_toTopOf="@+id/your_answer_title" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/your_answer_title" />
+
+    <TextView
+        android:id="@+id/results_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Voting Results:"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view" />
 
     <Button
         android:id="@+id/signout_button"
@@ -114,11 +114,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="YES"
+        android:layout_marginTop="8dp"
+        android:text="Yes:"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/your_answer_title" />
+        app:layout_constraintTop_toBottomOf="@+id/results_title" />
 
     <TextView
         android:id="@+id/yes_total_textview"
@@ -135,7 +135,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="NO"
+        android:text="No"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/yes_title" />

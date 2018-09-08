@@ -22,6 +22,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
     private DatabaseReference mRef;
+    private FirebaseAuth mAuth;
+
     private String uid;
     private String questionIndex;
 
@@ -36,47 +38,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Reference to the the Firebase Realtime Database
         mRef = FirebaseUtil.getDatabase().getReference();
-        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+        mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
 
         if(user != null){
              uid = user.getUid();
-             Log.d("MainActivity", "User ID" + uid);
+             Log.d("MainActivity", "User ID: " + uid);
         }
         else{
-            Intent intent = new Intent(MainActivity.this, AuthenticationActivity.class);
-            startActivity(intent);
-            FirebaseAuth.getInstance().signOut();
+            signOut();
         }
 
+        // Views
         questionTextView = findViewById(R.id.question_textview);
         yourAnswerTextView = findViewById(R.id.your_answer_textview);
         totalTextView = findViewById(R.id.total_total_textview);
         yesTotalTextView = findViewById(R.id.yes_total_textview);
         noTotalTextView = findViewById(R.id.no_total_textview);
 
-
-        DatabaseReference mQuestionIndexRef = mRef.child("question_index");
-        mQuestionIndexRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    Long questionIndexLong = dataSnapshot.getValue(Long.class);
-                    questionIndex = String.valueOf(questionIndexLong);
-                    fetchQuestion(String.valueOf(questionIndex));
-                    listenForAnswerTotals("yes", questionIndex);
-                    listenForAnswerTotals("no", questionIndex);
-                    listenForTotalResults(questionIndex);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
-
+        // Buttons
         Button yesButton = findViewById(R.id.yes_button);
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,12 +76,32 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        Button signoutButton = findViewById(R.id.signout_button);
-        signoutButton.setOnClickListener(new View.OnClickListener() {
+        Button signOutButton = findViewById(R.id.signout_button);
+        signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAuth.signOut();
+                signOut();
+            }
+        });
+
+        // Add listener for question index
+        DatabaseReference mQuestionIndexRef = mRef.child("question_index");
+        mQuestionIndexRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    Long questionIndexLong = dataSnapshot.getValue(Long.class);
+                    questionIndex = String.valueOf(questionIndexLong);
+                    
+                    fetchQuestion(String.valueOf(questionIndex));
+                    listenForAnswerTotals("yes", questionIndex);
+                    listenForAnswerTotals("no", questionIndex);
+                    listenForTotalResults(questionIndex);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
             }
         });
     }
@@ -122,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkIfAnsweredAndAnswer(final String answer){
         if(questionIndex != null) {
-
             DatabaseReference mNormalisedAnswers = mRef.child("normalised_answers").child(questionIndex).child(uid);
             mNormalisedAnswers.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -146,7 +148,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-
     }
 
     private void listenForTotalResults(String questionIndex){
@@ -174,9 +175,7 @@ public class MainActivity extends AppCompatActivity {
                 String total = "0";
                 if(dataSnapshot.exists()){
                     total = String.valueOf(dataSnapshot.getChildrenCount());
-                    Log.d("MainActivity", "total: " + total);
                 }
-
                 if (answer.equals("yes")){
                     yesTotalTextView.setText(total);
                 }
@@ -187,9 +186,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }
 
+    private void signOut(){
+        mAuth.signOut();
+        Intent startAuthenticationActivity = new Intent(MainActivity.this, AuthenticationActivity.class);
+        MainActivity.this.startActivity(startAuthenticationActivity);
+        finish();
+    }
 }

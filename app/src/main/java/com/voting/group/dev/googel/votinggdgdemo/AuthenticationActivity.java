@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class AuthenticationActivity extends BaseActivity {
 
-    private static final String TAG = "EmailPassword";
+    private static final String TAG = "AuthenticationActivity";
 
     private EditText mEmailField;
     private EditText mPasswordField;
@@ -157,9 +157,8 @@ public class AuthenticationActivity extends BaseActivity {
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         if (user != null) {
-            Intent showUserIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
-            Bundle extras = new Bundle();
-            AuthenticationActivity.this.startActivity(showUserIntent.putExtras(extras));
+            Intent startMainActivity = new Intent(AuthenticationActivity.this, MainActivity.class);
+            AuthenticationActivity.this.startActivity(startMainActivity);
         }
     }
 }
