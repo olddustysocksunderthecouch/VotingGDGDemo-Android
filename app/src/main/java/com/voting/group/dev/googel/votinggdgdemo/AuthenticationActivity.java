@@ -207,10 +207,11 @@ public class AuthenticationActivity extends BaseActivity implements
             findViewById(R.id.signedInButtons).setVisibility(View.VISIBLE);
 
             findViewById(R.id.verifyEmailButton).setEnabled(!user.isEmailVerified());
-        } else {
             Intent showUserIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
             Bundle extras = new Bundle();
             AuthenticationActivity.this.startActivity(showUserIntent.putExtras(extras));
+        } else {
+
 
             mStatusTextView.setText(R.string.signed_out);
             mDetailTextView.setText(null);
