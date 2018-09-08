@@ -22,9 +22,14 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
     private DatabaseReference mRef;
-    private TextView helloWorld;
     private String uid;
     private String questionIndex;
+
+    private TextView questionTextView;
+    private TextView yourAnswerTextView;
+    private TextView totalTextView;
+    private TextView yesTotalTextView;
+    private TextView noTotalTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +42,20 @@ public class MainActivity extends AppCompatActivity {
 
         if(user != null){
              uid = user.getUid();
-             Log.e("MainActivity", uid);
+             Log.d("MainActivity", "User ID" + uid);
         }
         else{
             Intent intent = new Intent(MainActivity.this, AuthenticationActivity.class);
             startActivity(intent);
             FirebaseAuth.getInstance().signOut();
-            Log.e("MainActivity","signout");
         }
 
+        questionTextView = findViewById(R.id.question_textview);
+        yourAnswerTextView = findViewById(R.id.your_answer_textview);
+        totalTextView = findViewById(R.id.total_total_textview);
+        yesTotalTextView = findViewById(R.id.yes_total_textview);
+        noTotalTextView = findViewById(R.id.no_total_textview);
 
-        helloWorld = findViewById(R.id.helloworldtextview);
 
         DatabaseReference mQuestionIndexRef = mRef.child("question_index");
         mQuestionIndexRef.addValueEventListener(new ValueEventListener() {
@@ -102,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     String question = dataSnapshot.getValue(String.class);
-                    helloWorld.setText(question);
+                    questionTextView.setText(question);
                 }
             }
 
@@ -114,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkIfAnsweredAndAnswer(final String answer){
         if(questionIndex != null) {
-            final TextView yourAnswerTextView = findViewById(R.id.your_answer_textview);
+
             DatabaseReference mNormalisedAnswers = mRef.child("normalised_answers").child(questionIndex).child(uid);
             mNormalisedAnswers.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -142,7 +150,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void listenForTotalResults(String questionIndex){
-        final TextView totalTextView = findViewById(R.id.total_total_textview);
         DatabaseReference mNormalisedAnswers = mRef.child("normalised_answers").child(questionIndex);
         mNormalisedAnswers.addValueEventListener(new ValueEventListener() {
             @Override
@@ -155,13 +162,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }
 
     private void listenForAnswerTotals(final String answer, String questionIndex){
-
         DatabaseReference mDeNormalisedAnswers = mRef.child("de_normalised_answers").child(questionIndex).child(answer);
         mDeNormalisedAnswers.addValueEventListener(new ValueEventListener() {
             @Override
@@ -173,11 +178,9 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (answer.equals("yes")){
-                    TextView yesTotalTextView = findViewById(R.id.yes_total_textview);
                     yesTotalTextView.setText(total);
                 }
                 else{
-                    TextView noTotalTextView = findViewById(R.id.no_total_textview);
                     noTotalTextView.setText(total);
                 }
             }
