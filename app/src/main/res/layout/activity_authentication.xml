@@ -1,6 +1,5 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,7 +11,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:hint="@string/hint_email"
+        android:hint="Email"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toStartOf="@+id/fieldPassword"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        android:hint="@string/hint_password"
+        android:hint="Password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/fieldEmail"
@@ -38,7 +37,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/create_account"
+        android:text="Create Account"
         app:layout_constraintEnd_toStartOf="@+id/emailSignInButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fieldPassword" />
@@ -50,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/sign_in"
+        android:text="Sign In"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/emailCreateAccountButton"
         app:layout_constraintTop_toBottomOf="@+id/fieldEmail" />
