@@ -10,10 +10,11 @@
         android:id="@+id/question_textview"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
         android:text="Loading..."
+        android:textSize="14sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />
@@ -26,6 +27,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Question Time"
+        android:textColor="@color/colorAccent"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,10 +56,10 @@
         android:id="@+id/your_answer_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="Your Answer:"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/yes_button" />
 
@@ -68,7 +70,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
         android:text="No answer yet"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toEndOf="@+id/your_answer_title"
@@ -93,6 +95,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="Voting Results:"
+        android:textColor="@color/colorAccent"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view" />
@@ -113,9 +116,9 @@
         android:id="@+id/yes_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="Yes:"
+        android:text="Yes"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/results_title" />
@@ -133,11 +136,10 @@
         android:id="@+id/no_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="No"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/yes_title"
         app:layout_constraintTop_toBottomOf="@+id/yes_title" />
 
     <TextView
@@ -153,11 +155,10 @@
         android:id="@+id/total_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Total"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/yes_title"
         app:layout_constraintTop_toBottomOf="@+id/no_title" />
 
     <TextView

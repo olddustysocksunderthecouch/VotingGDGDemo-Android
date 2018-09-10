@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     Long questionIndexLong = dataSnapshot.getValue(Long.class);
                     questionIndex = String.valueOf(questionIndexLong);
-                    
+
                     fetchQuestion(String.valueOf(questionIndex));
                     listenForAnswerTotals("yes", questionIndex);
                     listenForAnswerTotals("no", questionIndex);

@@ -10,10 +10,38 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        release {
+            storeFile file("/Users/adrianbunge/Documents/android_development/SigningKeys/gdg_voting_demo")
+            storePassword "gdg_voting_demo"
+            keyAlias "key0"
+            keyPassword "gdg_voting_demo"
+        }
+    }
+
+    flavorDimensions "versionCode"
+    productFlavors {
+        dev {
+            dimension "versionCode"
+            applicationIdSuffix = ".dev"
+            resValue "string", "app_name", ("Voting GDG Demo" + "_dev")
+        }
+        prod {
+            dimension "versionCode"
+            resValue "string", "app_name", ("Voting GDG Demo")
+        }
+    }
+
     buildTypes {
+        debug{
+            minifyEnabled false
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            productFlavors.prod.signingConfig signingConfigs.release
         }
     }
 }
