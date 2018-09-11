@@ -23,6 +23,66 @@
           }
         },
         {
+          "client_id": "679577265320-i3lh9dgppl2059a6goa95i1gldpk4g3a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.voting.group.dev.googel.votinggdgdemo",
+            "certificate_hash": "1197411f38a5e157eb791dfc180fd2633fa58308"
+          }
+        },
+        {
+          "client_id": "679577265320-ltbaeoriadi52k1on1b6d6l91j54uftj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo1HV_1etyFdmR9CprYX5cE7Go_eUL3bI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "679577265320-ltbaeoriadi52k1on1b6d6l91j54uftj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:679577265320:android:0fa613f86ee1000f",
+        "android_client_info": {
+          "package_name": "com.voting.group.dev.googel.votinggdgdemo.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "679577265320-ocr2re9e0gj80ob7u3e3rgv7gd8rd5nl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.voting.group.dev.googel.votinggdgdemo.dev",
+            "certificate_hash": "1197411f38a5e157eb791dfc180fd2633fa58308"
+          }
+        },
+        {
+          "client_id": "679577265320-134d9pddtd44t8mn3jsucgiohtsatunj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.voting.group.dev.googel.votinggdgdemo.dev",
+            "certificate_hash": "f3dd294ff2700997c4468588b311da3e70c6ca64"
+          }
+        },
+        {
           "client_id": "679577265320-ltbaeoriadi52k1on1b6d6l91j54uftj.apps.googleusercontent.com",
           "client_type": 3
         }
