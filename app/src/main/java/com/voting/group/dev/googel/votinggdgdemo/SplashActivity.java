@@ -20,6 +20,7 @@ public class SplashActivity extends AppCompatActivity {
             Intent intent = new Intent(SplashActivity.this, AuthenticationActivity.class);
             startActivity(intent);
             Log.e("SplashActivity", "User is null");
+            finish();
         } else {
             Intent intent = new Intent(SplashActivity.this, MainActivity.class);
             startActivity(intent);
