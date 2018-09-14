@@ -63,11 +63,23 @@ public class MainActivity extends AppCompatActivity {
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference mFlatAnswers = mRef.child("flat_answers").child(questionIndex).child(uid);
-                mFlatAnswers.setValue("yes");
+                checkIfAnsweredAndAnswer("yes", questionIndex);
+            }
+        });
 
-                DatabaseReference mNestedAnswers = mRef.child("nested_answers").child(questionIndex).child("yes").child(uid);
-                mNestedAnswers.setValue(true);
+        Button kindaButton = findViewById(R.id.kinda_button);
+        kindaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkIfAnsweredAndAnswer("kinda", questionIndex);
+            }
+        });
+
+        Button noButton = findViewById(R.id.no_button);
+        noButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkIfAnsweredAndAnswer("no", questionIndex);
             }
         });
 
@@ -109,6 +121,36 @@ public class MainActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     String question = dataSnapshot.getValue(String.class);
                     questionTextView.setText(question);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
+    private void checkIfAnsweredAndAnswer(final String answer, final String questionIndex) {
+        DatabaseReference mFlatAnswers = mRef.child("flat_answers").child(questionIndex).child(uid);
+        mFlatAnswers.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String yourAnswer = dataSnapshot.getValue(String.class);
+                    // If and answer exists in the flatAnswers node
+                    // show a toast at the bottom of the screen to tell the user
+                    Toast.makeText(MainActivity.this, "You've already answered " + yourAnswer + " to this question", Toast.LENGTH_LONG).show();
+
+                } else {
+                    // Otherwise set the answer the user has selected to both the flat_answers node and the nested_answers
+                    // Note that you use the user's Unique ID (UID)
+                    DatabaseReference mFlatAnswers = mRef.child("flat_answers").child(questionIndex).child(uid);
+                    mFlatAnswers.setValue(answer);
+
+                    DatabaseReference mNestedAnswers = mRef.child("nested_answers").child(questionIndex).child(answer).child(uid);
+                    mNestedAnswers.setValue(true);
+
+                    Toast.makeText(MainActivity.this, "You've just answered: " + answer, Toast.LENGTH_LONG).show();
                 }
             }
 
