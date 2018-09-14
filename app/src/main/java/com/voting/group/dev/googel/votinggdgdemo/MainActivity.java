@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkIfAnsweredAndAnswer("yes");
+                checkIfAnsweredAndAnswer("yes", questionIndex);
             }
         });
 
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         kindaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkIfAnsweredAndAnswer("kinda");
+                checkIfAnsweredAndAnswer("kinda", questionIndex);
             }
         });
 
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         noButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkIfAnsweredAndAnswer("no");
+                checkIfAnsweredAndAnswer("no", questionIndex);
             }
         });
 
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fetchAnswer(String questionIndex) {
-        DatabaseReference mNormalisedAnswers = mRef.child("normalised_answers").child(questionIndex).child(uid);
+        DatabaseReference mNormalisedAnswers = mRef.child("flat_answers").child(questionIndex).child(uid);
         mNormalisedAnswers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -161,8 +161,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void checkIfAnsweredAndAnswer(final String answer) {
-        DatabaseReference mNormalisedAnswers = mRef.child("normalised_answers").child(questionIndex).child(uid);
+    private void checkIfAnsweredAndAnswer(final String answer, final String questionIndex) {
+        DatabaseReference mNormalisedAnswers = mRef.child("flat_answers").child(questionIndex).child(uid);
         mNormalisedAnswers.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -171,10 +171,10 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "You've already answered " + yourAnswer + " to this question", Toast.LENGTH_LONG).show();
 
                 } else {
-                    DatabaseReference mNormalisedAnswers = mRef.child("normalised_answers").child(questionIndex).child(uid);
+                    DatabaseReference mNormalisedAnswers = mRef.child("flat_answers").child(questionIndex).child(uid);
                     mNormalisedAnswers.setValue(answer);
 
-                    DatabaseReference mDenormalisedAnswers = mRef.child("de_normalised_answers").child(questionIndex).child(answer).child(uid);
+                    DatabaseReference mDenormalisedAnswers = mRef.child("nested_answers").child(questionIndex).child(answer).child(uid);
                     mDenormalisedAnswers.setValue(true);
                 }
             }
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void listenForTotalResults(String questionIndex) {
-        DatabaseReference mNormalisedAnswers = mRef.child("normalised_answers").child(questionIndex);
+        DatabaseReference mNormalisedAnswers = mRef.child("flat_answers").child(questionIndex);
         mNormalisedAnswers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void listenForAnswerTotals(final String answer, String questionIndex) {
-        DatabaseReference mDeNormalisedAnswers = mRef.child("de_normalised_answers").child(questionIndex).child(answer);
+        DatabaseReference mDeNormalisedAnswers = mRef.child("nested_answers").child(questionIndex).child(answer);
         mDeNormalisedAnswers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
