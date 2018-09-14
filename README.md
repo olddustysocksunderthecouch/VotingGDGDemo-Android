@@ -14,9 +14,11 @@
 ** You can also get it in the form of a custom model that you create. This is useful if you have multiple named fields in the dataShapshot. We won't use this in the workshop but you will most likely use in other apps that you build.
 Example:
 
+```
 person1:
-    - name
-    - age
-    - height
+    name
+    age
+    height
+ ```
 
 In this case you'd create a Person plain old java object (POJO) aka model that takes in name, age, height
