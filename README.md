@@ -1,24 +1,22 @@
-# PART 2 - Auth, SplashScreen Intents & Signing Out
+# PART 3 - First valueEventListener
 
 ## Steps
-We won't be covering how the AuthenticationActivity works but you can take a look if you'd like. Perhaps look after the workshop - it might be a bit too scary for right now.
-
-**SplashScreenActivity**
-1) Get an instance of Firebase Auth
-2) Get the Firebase User object
-3) If loop check if user object is null
-4) Log outcome of the if loop using Log.d("foo", "bar")
-5) Intents based on null or not
-6) finish() the activity after the intent to prevent back navigation
-
-**MainActivity**
-1) Get the Firebase user object as in SplashScreenActivity
-2) findViewById(R.id.signout_button)
-3) setOnClickListener on signOutButton
-4) Add a method for signOut
-    - Intents
-    - mAuth.signOut()
-    - finish()
+1) Add question node to your Firebase Realtime Database
+2) Get a reference to the database
+3) Create a DatabaseReference for Question
+4) AddValueEventListener
+5) Add and if statement to make sure that dataSanapShot.exists() or you might get a null pointer exception
+6) Get the value of the dataSnapshot in the form of a String **
+6) findviewbyid - questionTextView
+7) set the text of the questionTextView with questionTextView.setText()
 
 
-NB: If you checkout a new branch you’ll have to copy your google-services.json into the project app folder again
+** You can also get it in the form of a custom model that you create. This is useful if you have multiple named fields in the dataShapshot. We won't use this in the workshop but you will most likely use in other apps that you build.
+Example:
+
+person1:
+    - name
+    - age
+    - height
+
+In this case you'd create a Person plain old java object (POJO) aka model that takes in name, age, height
