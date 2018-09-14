@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     // The IDE isn't happy but we don't care because we'll
     // need this as class variables later
     private String uid;
+
+    private String questionIndex;
 
     private TextView questionTextView;
 
@@ -55,6 +58,19 @@ public class MainActivity extends AppCompatActivity {
 
         questionTextView = findViewById(R.id.question_textview);
 
+        // Buttons and ClickListeners
+        Button yesButton = findViewById(R.id.yes_button);
+        yesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference mFlatAnswers = mRef.child("flat_answers").child(questionIndex).child(uid);
+                mFlatAnswers.setValue("yes");
+
+                DatabaseReference mNestedAnswers = mRef.child("nested_answers").child(questionIndex).child("yes").child(uid);
+                mNestedAnswers.setValue(true);
+            }
+        });
+
         Button signOutButton = findViewById(R.id.signout_button);
         signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     Long questionIndexLong = dataSnapshot.getValue(Long.class);
-                    String questionIndex = String.valueOf(questionIndexLong);
+                    questionIndex = String.valueOf(questionIndexLong);
 
                     // Start listeners based on the question_index
                     // These will fire every time the MainActivity is created
@@ -111,5 +127,4 @@ public class MainActivity extends AppCompatActivity {
         // Destroy the current activity to prevent users from being able to click back and opening the MainActivity again
         finish();
     }
-
 }
