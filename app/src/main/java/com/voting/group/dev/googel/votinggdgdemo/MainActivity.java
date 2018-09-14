@@ -140,8 +140,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fetchAnswer(String questionIndex) {
-        DatabaseReference mNormalisedAnswers = mRef.child("flat_answers").child(questionIndex).child(uid);
-        mNormalisedAnswers.addValueEventListener(new ValueEventListener() {
+        DatabaseReference mFlatAnswers = mRef.child("flat_answers").child(questionIndex).child(uid);
+        mFlatAnswers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -162,8 +162,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkIfAnsweredAndAnswer(final String answer, final String questionIndex) {
-        DatabaseReference mNormalisedAnswers = mRef.child("flat_answers").child(questionIndex).child(uid);
-        mNormalisedAnswers.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference mFlatAnswers = mRef.child("flat_answers").child(questionIndex).child(uid);
+        mFlatAnswers.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -171,11 +171,11 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "You've already answered " + yourAnswer + " to this question", Toast.LENGTH_LONG).show();
 
                 } else {
-                    DatabaseReference mNormalisedAnswers = mRef.child("flat_answers").child(questionIndex).child(uid);
-                    mNormalisedAnswers.setValue(answer);
+                    DatabaseReference mFlatAnswers = mRef.child("flat_answers").child(questionIndex).child(uid);
+                    mFlatAnswers.setValue(answer);
 
-                    DatabaseReference mDenormalisedAnswers = mRef.child("nested_answers").child(questionIndex).child(answer).child(uid);
-                    mDenormalisedAnswers.setValue(true);
+                    DatabaseReference mNestedAnswers = mRef.child("nested_answers").child(questionIndex).child(answer).child(uid);
+                    mNestedAnswers.setValue(true);
                 }
             }
 
@@ -186,8 +186,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void listenForTotalResults(String questionIndex) {
-        DatabaseReference mNormalisedAnswers = mRef.child("flat_answers").child(questionIndex);
-        mNormalisedAnswers.addValueEventListener(new ValueEventListener() {
+        DatabaseReference mFlatAnswers = mRef.child("flat_answers").child(questionIndex);
+        mFlatAnswers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -203,8 +203,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void listenForAnswerTotals(final String answer, String questionIndex) {
-        DatabaseReference mDeNormalisedAnswers = mRef.child("nested_answers").child(questionIndex).child(answer);
-        mDeNormalisedAnswers.addValueEventListener(new ValueEventListener() {
+        DatabaseReference mNestedAnswers = mRef.child("nested_answers").child(questionIndex).child(answer);
+        mNestedAnswers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String total = "0";
