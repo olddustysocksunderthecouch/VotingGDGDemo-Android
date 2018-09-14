@@ -63,20 +63,39 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Database reference to the node we're interested in, in the database
-        DatabaseReference mQuestionIndex = mRef.child("question");
+        // Add listener for question_index
+        DatabaseReference mQuestionIndexRef = mRef.child("question_index");
+        mQuestionIndexRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    Long questionIndexLong = dataSnapshot.getValue(Long.class);
+                    String questionIndex = String.valueOf(questionIndexLong);
+
+                    // Start listeners based on the question_index
+                    // These will fire every time the MainActivity is created
+                    // and when ever the question_index value is changed in Firebase
+                    fetchQuestion(questionIndex);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
+    private void fetchQuestion(String questionIndex) {
+        DatabaseReference mQuestionIndex = mRef.child("questions").child(questionIndex);
         mQuestionIndex.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // Check if data exists to avoid null point exceptions
                 if (dataSnapshot.exists()) {
-                    // Get the value of the dataSnapshot in the form of a String
                     String question = dataSnapshot.getValue(String.class);
                     questionTextView.setText(question);
                 }
             }
-            // Don't worry about this - it has to be here to make things happy
-            // It's not often used so for the forseeable future just consider this meaningless boilerplate code
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
