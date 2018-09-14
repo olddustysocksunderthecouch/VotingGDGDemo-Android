@@ -24,25 +24,19 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference mRef;
     private FirebaseAuth mAuth;
 
-    // The IDE isn't happy but we don't care because we'll
-    // need this as class variables later
     private String uid;
-
     private String questionIndex;
 
     private TextView questionTextView;
-
+    private TextView yesTotalTextView;
+    private TextView kindaTotalTextView;
+    private TextView noTotalTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Get the layout for this activity - you'll then be able to find views by their ID
         setContentView(R.layout.activity_main);
 
-        // Reference to the the Firebase Realtime Database
-        // The Firebase Utils class enables the super smart persistence of data in the app
-        // and will also cache writes to the database if there is no internet connectivity
-        // It'll be hard for you to fully appreciate how truly amazing and awesome this is!
         mRef = FirebaseUtil.getDatabase().getReference();
 
         // Get Firebase Auth
@@ -57,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         questionTextView = findViewById(R.id.question_textview);
+        yesTotalTextView = findViewById(R.id.yes_total_textview);
+        kindaTotalTextView = findViewById(R.id.kinda_total_textview);
+        noTotalTextView = findViewById(R.id.no_total_textview);
+
 
         // Buttons and ClickListeners
         Button yesButton = findViewById(R.id.yes_button);
@@ -91,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         // Add listener for question_index
         DatabaseReference mQuestionIndexRef = mRef.child("question_index");
         mQuestionIndexRef.addValueEventListener(new ValueEventListener() {
@@ -104,6 +103,10 @@ public class MainActivity extends AppCompatActivity {
                     // These will fire every time the MainActivity is created
                     // and when ever the question_index value is changed in Firebase
                     fetchQuestion(questionIndex);
+
+                    listenForAnswerTotals("yes", questionIndex);
+                    listenForAnswerTotals("kinda", questionIndex);
+                    listenForAnswerTotals("no", questionIndex);
                 }
             }
 
@@ -137,13 +140,9 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     String yourAnswer = dataSnapshot.getValue(String.class);
-                    // If and answer exists in the flatAnswers node
-                    // show a toast at the bottom of the screen to tell the user
                     Toast.makeText(MainActivity.this, "You've already answered " + yourAnswer + " to this question", Toast.LENGTH_LONG).show();
 
                 } else {
-                    // Otherwise set the answer the user has selected to both the flat_answers node and the nested_answers
-                    // Note that you use the user's Unique ID (UID)
                     DatabaseReference mFlatAnswers = mRef.child("flat_answers").child(questionIndex).child(uid);
                     mFlatAnswers.setValue(answer);
 
@@ -159,6 +158,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void listenForAnswerTotals(final String answer, String questionIndex) {
+        DatabaseReference mFlatAnswers = mRef.child("nested_answers").child(questionIndex).child(answer);
+        mFlatAnswers.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String total = "0";
+                if (dataSnapshot.exists()) {
+                    total = String.valueOf(dataSnapshot.getChildrenCount());
+                }
+                if (answer.equals("yes")) {
+                    yesTotalTextView.setText(total);
+                } else if (answer.equals("kinda")) {
+                    kindaTotalTextView.setText(total);
+                } else {
+                    noTotalTextView.setText(total);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
 
     private void signOut() {
         // Sign out of Firebase
